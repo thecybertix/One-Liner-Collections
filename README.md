@@ -43,11 +43,18 @@ cat domain.txt | httpx -silent -H "X-Forwarded-For: 'XOR(if(now()=sysdate(),slee
 4. GF          : https://github.com/tomnomnom/gf
 5. QS-Replace  : https://github.com/tomnomnom/qsreplace
 6. HTTPX       : https://github.com/projectdiscovery/httpx
+7. Subfinder   : https://github.com/projectdiscovery/subfinder
+8. Httprobe    : https://github.com/tomnomnom/httprobe
+9. Nuclei      : https://github.com/projectdiscovery/nuclei
 
 ## OneLiner
 
 ```
 waybackurls TARGET.COM | grep -a -i \=http | qsreplace 'http://evil.com' | while read host do;do curl -s -L $host -I| grep "evil.com" && echo "$host \033[0;31mVulnerable\n" ;done
+```
+
+```
+subfinder -dL domains.txt | httprobe |tee live_domain.txt; cat live_domain.txt | waybackurls | tee wayback.txt; cat wayback.txt | sort -u | grep "\?" > open.txt; nuclei -t Url-Redirection-Catcher.yaml -l open.txt
 ```
 
 ────────────────────────────────────────────────────────────────────────
