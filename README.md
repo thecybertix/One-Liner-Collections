@@ -190,3 +190,17 @@ subfinder -d http://example.com -silent -all | httpx -silent -ports http:80,http
 ```
 subfinder -silent -d TARGET.com | httpx -silent -nc -p 80,443,8080,8443,9000,9001,9002,9003,8088 -path "/wp-config.PHP" -mc 200 -t 60 -status-code
 ```
+
+────────────────────────────────────────────────────────────────────────
+
+# JS Secret Finder Oneliner
+
+## Installation Requirements
+1. Gau         : https://github.com/lc/gau
+2. HTTPX       : https://github.com/projectdiscovery/httpx
+3. Nuclei      : https://github.com/projectdiscovery/nuclei
+
+## OneLiner
+```
+echo TARGET.com | gau | grep ".js" | httpx -content-type | grep 'application/javascript' | awk '{print $1}' | nuclei -t /root/nuclei-templates/exposures/ -silent > secrets.txt
+```
