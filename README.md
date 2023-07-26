@@ -210,6 +210,19 @@ echo TARGET.com | gau | grep ".js" | httpx -content-type | grep 'application/jav
 # Memory dump and env disclosure
 
 ## Installation Requirements
+1. Waybackurls  : https://github.com/tomnomnom/waybackurls
+2. HTTPX       : https://github.com/projectdiscovery/httpx
+
+## OneLiner
+```
+cat subdomains.txt | waybackurls | httpx -mc 200 -ct | grep application/json
+```
+
+────────────────────────────────────────────────────────────────────────
+
+# Easiest Information Disclosure in JSON body
+
+## Installation Requirements
 1. Shodan      : https://www.shodan.io
 
 ## OneLiner
