@@ -229,3 +229,15 @@ shodan search org: "Target" http.favicon.hash:116323821 --fields ip_str,port--se
 ```
 cat subdomains.txt | waybackurls | httpx -mc 200 -ct | grep application/json
 ```
+
+────────────────────────────────────────────────────────────────────────
+
+# Fuzz with 127.0.0.1 as Host header 
+
+## Installation Requirements
+1. FFUF  : https://github.com/ffuf/ffuf
+
+## OneLiner
+```
+ffuf -u https://target[.]com/FUZZ -H “Host: 127.0.0.1” -w /home/user/path/to/wordlist.txt -fs <regular_content_length>
+```
