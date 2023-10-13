@@ -259,3 +259,12 @@ cat file.txt| while read host do;do curl -sk "http://$host:8443/images//////////
 ```
 curl -s -L -k https://TARGET.COM/favicon.ico | python3 -c 'import mmh3, sys, codecs; print(mmh3.hash(codecs.encode(sys.stdin.buffer.read(),"base64")))'
 ```
+
+────────────────────────────────────────────────────────────────────────
+
+# CVE-2023-22515 One Liner Confluence Data Center & Server: Privilege Escalation
+
+## OneLiner
+```
+cat file.txt | while read host do; do curl -skL "http://$host/setup/setupadministrator.action" | grep -i "<title>Setup System Administrator" && echo $host "Vulnerable"; done
+```
