@@ -15,8 +15,13 @@ This Repositories contains list of One Liners with Descriptions and Installation
 5. HTTPX       : https://github.com/projectdiscovery/httpx
 6. Anew        : https://github.com/tomnomnom/anew
 7. Waybackurls : https://github.com/tomnomnom/waybackurls
+8. SQLiDetector: https://github.com/eslam3kl/SQLiDetector
 
 ## OneLiner
+```
+echo http://testphp.vulnweb.com | waybackurls > wayback_urls_for_target.txt ; python3 sqlidetector.py -f  wayback_urls_for_target.txt
+
+```
 ```
 subfinder -d http://TARGET.com -silent -all | gau - blacklist ttf,woff,svg,png | sort -u | gf sqli >gf_sqli.txt; sqlmap -m gf_sqli.txt --batch --risk 3 --random-agent | tee -a sqli_report.txt
 ```
