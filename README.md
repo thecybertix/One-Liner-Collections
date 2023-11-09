@@ -273,3 +273,12 @@ curl -s -L -k https://TARGET.COM/favicon.ico | python3 -c 'import mmh3, sys, cod
 ```
 cat file.txt | while read host do; do curl -skL "http://$host/setup/setupadministrator.action" | grep -i "<title>Setup System Administrator" && echo $host "Vulnerable"; done
 ```
+
+────────────────────────────────────────────────────────────────────────
+
+# CVE-2023-22518 - Improper Authorization Vulnerability in Confluence Data Center and Server
+
+## OneLiner
+```
+subfinder -d TARGET.COM -silent | httpx -silent | nuclei -t CVE-2023-22518.yaml
+```
