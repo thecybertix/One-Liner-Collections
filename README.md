@@ -300,3 +300,15 @@ subfinder -d TARGET.COM -silent | httpx -silent | nuclei -t CVE-2023-22518.yaml
 ```
 subfinder -d TARGET.COM | httpx -path "/auth.json" -title -status-code -content-length -t 80 -p 80,443,8080,8443,9000,9001,9002,9003
 ```
+
+────────────────────────────────────────────────────────────────────────
+
+# Use xargs with gau to scan bulk domains without losing speed .
+
+## Installation Requirements
+1. GAU         : https://github.com/lc/gau
+
+## OneLiner
+```
+xargs -a alive.txt -I@ sh -c 'gau --blacklist css,jpg,jpeg,JPEG,ott,svg,js,ttf,png,woff2,woff,eot,gif "@"' | tee -a gau.txt
+```
