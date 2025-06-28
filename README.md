@@ -383,7 +383,10 @@ while read -r domain; do url="$domain/$(python3 -c 'print("A"*500)')"; response=
 2. HTTPX:https://github.com/projectdiscovery/httpx
 3. Anew: https://github.com/tomnomnom/anew
 4. Meg: https://github.com/tomnomnom/meg
-5. GF Pattern: 
+5. GF Pattern: https://github.com/thecybertix/GF-Patterns
+   
 ## OneLiner
 ```
 assetfinder --subs-only TARGET.COM | httpx | anew hosts; meg -d 1000 -v /; gf s3-buckets
+```
+
