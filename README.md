@@ -373,3 +373,17 @@ https://tripla.dk/2020/03/26/multiple-vulnerabilities-in-nodejs-ecstatic-http-se
 ```
 while read -r domain; do url="$domain/$(python3 -c 'print("A"*500)')"; response=$(curl -s "$url" 2>/dev/null); if echo "$response" | grep -q "ENAMETOOLONG.*stat"; then echo -e "[VULNERABLE] $url\n$(echo "$response" | grep 'ENAMETOOLONG')"; else echo "[SAFE] $domain"; fi; done < listofdomain.txt
 ```
+
+────────────────────────────────────────────────────────────────────────
+
+# Oneliner to Find S3 Buckets
+
+## Installation Requirements:
+1. Assetfinder: https://github.com/tomnomnom/assetfinder
+2. HTTPX:https://github.com/projectdiscovery/httpx
+3. Anew: https://github.com/tomnomnom/anew
+4. Meg: https://github.com/tomnomnom/meg
+5. GF Pattern: 
+## OneLiner
+```
+assetfinder --subs-only TARGET.COM | httpx | anew hosts; meg -d 1000 -v /; gf s3-buckets
